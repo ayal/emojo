@@ -2,18 +2,23 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import "./styles.css";
 import words from "./words.json";
 
+
+const uniq = (arr)=>arr.filter(function (x, index) {
+	return arr.indexOf(x) === index;
+});
+
 function rint(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const getQ = (p)=> {
+const getQ = (p) => {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(p);
 }
 
-const setQ = (p, v)=> {
+const setQ = (p, v) => {
   const urlParams = new URLSearchParams(window.location.search);
   urlParams.set(p, v);
   history.replaceState({}, '', `${location.pathname}?${urlParams}`)
@@ -24,19 +29,22 @@ export default function App() {
   const keys = useMemo(() => Object.keys(words), [words]);
   const qidx = getQ('idx');
   const [idx, setIdx] = useState(qidx && Number(qidx) ? Number(qidx) : rint(0, keys.length - 1));
-  useEffect(()=>{
+  useEffect(() => {
     setQ('idx', idx);
   }, [idx])
   const ref = useRef();
   const [answers, setAnswers] = useState();
   const [guesses, setGuesses] = useState([]);
-  
-  
+
+
 
   const selected = keys[idx];
-  const selectedWords = words[selected].flatMap((x) =>
+  const selectedWords = uniq(words[selected].flatMap((x) =>
     [...x.split(" ").map((y) => y.toLowerCase()), x]
-  );
+  ));
+  const answerWords = uniq(words[selected].flatMap((x) =>
+    [...x.split(" ").map((y) => y.toLowerCase())]
+  ));
 
   const guess = (e) => {
     const guessWord = ref.current.value;
@@ -45,7 +53,7 @@ export default function App() {
     if (!guessWord.trim()) {
       return;
     }
-    
+
     let ok = false;
     let partial = false;
     for (const sWord of selectedWords) {
@@ -62,33 +70,29 @@ export default function App() {
     setGuesses((prev) => [...prev, { ok, guessWord, partial }]);
   };
   return (
-    <div className="App">
-      {
-        <div className="app">
-          <div style={{ fontSize: 60 }}>{selected}</div>
-          <div>{`${words[selected].length} words`}</div>
-          <div className="input-button">
-            <input ref={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
-            <button onClick={(e) => guess()}>guess</button>
-          </div>
-          <div className="guess-list">
-            {guesses.map(({ ok, partial, guessWord }) => {
-              return (
-                <span className="guess" style={{ background: ok ? partial ? "#FCEAAF" : "#7DDAD9" : "#F598AA" }}>
-                  {guessWord}
-                </span>
-              );
-            })}
-          </div>
-          <button role="button" class="answers-button secondary" onClick={setAnswers}>Show Answers</button>
-          <div className="answers">{answers ? words[selected].map(x => <span className="answer">{x}</span>) : null}</div>
-          <button role="button" class="new-game-button secondary" onClick={()=>{
-            setGuesses([]);
-            setAnswers(false);
-            setIdx(rint(0, keys.length - 1));
-          }}>New Game</button>
-        </div>
-      }
+
+    <div className="app">
+      <div style={{ fontSize: 60 }}>{selected}</div>
+      <div className="input-button">
+        <input ref={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
+        <button onClick={(e) => guess()}>guess word</button>
+      </div>
+      <div className="guess-list">
+        {guesses.map(({ ok, partial, guessWord }) => {
+          return (
+            <span className="guess" style={{ background: ok ? partial ? "#FCEAAF" : "#7dda9a" : "#F598AA" }}>
+              {guessWord}
+            </span>
+          );
+        })}
+      </div>
+      <button role="button" class="answers-button secondary" onClick={setAnswers}>Show Answers</button>
+      <div className="answers">{answers ? answerWords.map(x => <span className="answer">{x}</span>) : null}</div>
+      <button role="button" class="new-game-button secondary" onClick={() => {
+        setGuesses([]);
+        setAnswers(false);
+        setIdx(rint(0, keys.length - 1));
+      }}>New Game</button>
     </div>
   );
 }
