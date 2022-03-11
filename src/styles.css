@@ -1,3 +1,4 @@
+
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -21,7 +22,8 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
+  flex-direction: column;
 }
 
 .guess {
@@ -30,17 +32,27 @@ input {
 }
 
 .guess-list {
-  padding: 20px;
+  padding: 10px;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .answers {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
-.answer {
+.answer, .guess {
   margin: 4px;
-  border: 1px solid black;
+  border: 1px solid white;
   padding: 4px;
+}
+
+.answers-button, .new-game-button {
+  width: 200px;
 }

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import "./styles.css";
 import words from "./words.json";
 
@@ -8,12 +8,30 @@ function rint(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+const getQ = (p)=> {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(p);
+}
+
+const setQ = (p, v)=> {
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.set(p, v);
+  history.replaceState({}, '', `${location.pathname}?${urlParams}`)
+}
+
+
 export default function App() {
+  const keys = useMemo(() => Object.keys(words), [words]);
+  const qidx = getQ('idx');
+  const [idx, setIdx] = useState(qidx && Number(qidx) ? Number(qidx) : rint(0, keys.length - 1));
+  useEffect(()=>{
+    setQ('idx', idx);
+  }, [idx])
   const ref = useRef();
   const [answers, setAnswers] = useState();
   const [guesses, setGuesses] = useState([]);
-  const keys = useMemo(() => Object.keys(words), [words]);
-  const idx = useMemo(() => rint(0, keys.length - 1), [keys]);
+  
+  
 
   const selected = keys[idx];
   const selectedWords = words[selected].flatMap((x) =>
@@ -23,12 +41,11 @@ export default function App() {
   const guess = (e) => {
     const guessWord = ref.current.value;
     ref.current.value = "";
-    
+
     if (!guessWord.trim()) {
       return;
     }
     
-    console.log("guess word is", guessWord);
     let ok = false;
     let partial = false;
     for (const sWord of selectedWords) {
@@ -57,14 +74,19 @@ export default function App() {
           <div className="guess-list">
             {guesses.map(({ ok, partial, guessWord }) => {
               return (
-                <div className="guess" style={{ background: ok ? partial ? "yellow" : "green" : "red" }}>
+                <span className="guess" style={{ background: ok ? partial ? "yellow" : "green" : "red" }}>
                   {guessWord}
-                </div>
+                </span>
               );
             })}
           </div>
-          <button onClick={setAnswers}>Show Answers</button>
-          <div className="answers">{answers ? words[selected].map(x => <span className="answer is-small">{x}</span>) : null}</div>
+          <button role="button" class="answers-button secondary" onClick={setAnswers}>Show Answers</button>
+          <div className="answers">{answers ? words[selected].map(x => <span className="answer">{x}</span>) : null}</div>
+          <button role="button" class="new-game-button secondary" onClick={()=>{
+            setGuesses([]);
+            setAnswers(false);
+            setIdx(rint(0, keys.length - 1));
+          }}>New Game</button>
         </div>
       }
     </div>
