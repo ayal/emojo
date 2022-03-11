@@ -1,4 +1,4 @@
-import { Button, TextField, ThemeProvider, Chip } from "@mui/material";
+import { Button, TextField, ThemeProvider, Chip, Card, CardContent, CardActions, Divider } from "@mui/material";
 import { grey } from '@mui/material/colors';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme } from '@mui/material/styles';
@@ -104,24 +104,43 @@ export default function App() {
 
       <div className="app">
         <div style={{ fontSize: 60 }}>{emoji}</div>
-        <div className="input-button">
-          <TextField inputProps={{ autoComplete: "off" }} inputRef={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
-          <Button variant="contained" color="primary" className="guess-button" onClick={(e) => guess()}>Guess Word</Button>
+
+        <div className="main" style={{ marginBottom: 10 }}>
+          <Card>
+            <CardContent>
+              <div className="input-button">
+                <TextField inputProps={{ autoComplete: "off" }} inputRef={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
+                <Button variant="contained" color="primary" className="guess-button" onClick={(e) => guess()}>Guess Word</Button>
+              </div>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="secondary" className="answers-button secondary" onClick={()=>setAnswers(!answers)}>Toggle Answers</Button>
+              <Button size="small" color="secondary" className="new-game-button secondary" onClick={() => {
+                setGuesses([]);
+                setAnswers(false);
+                setIdx(rint(0, keys.length - 1));
+              }}>New Emojo</Button>
+            </CardActions>
+          </Card>
+          <Divider />
+          <Card>
+            <CardContent>
+            <div className="guess-list">
+                {guesses.map(({ ok, partial, guessWord }) => {
+                  return (
+                    <Chip key={guessWord} className="guess" color={ok ? partial ? "warning" : "success" : "error"} label={guessWord} />
+                  );
+                })}
+              </div>
+              <div className="answers">{answers ? answerWords.map(x => <Chip key={x} className="answer" label={x} />) : null}</div>
+            </CardContent>
+          </Card>
         </div>
-        <div className="guess-list">
-          {guesses.map(({ ok, partial, guessWord }) => {
-            return (
-              <Chip key={guessWord} className="guess" color={ok ? partial ? "warning" : "success" : "error"} label={guessWord} />
-            );
-          })}
-        </div>
-        <Button variant="contained" size="small" color="secondary" className="answers-button secondary" onClick={setAnswers}>Show Answers</Button>
-        <div className="answers">{answers ? answerWords.map(x => <Chip key={x} className="answer" label={x} />) : null}</div>
-        <Button variant="contained" size="small" color="secondary" className="new-game-button secondary" onClick={() => {
-          setGuesses([]);
-          setAnswers(false);
-          setIdx(rint(0, keys.length - 1));
-        }}>New Emojo</Button>
+
+
+
+
+
       </div>
     </ThemeProvider>
   );

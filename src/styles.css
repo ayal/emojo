@@ -23,7 +23,6 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
   flex-direction: column;
 }
 
@@ -37,7 +36,7 @@ input {
 }
 
 .guess-list {
-  padding: 10px;
+  padding: 4px;
   flex-wrap: wrap;
   display: flex;
   align-items: center;
