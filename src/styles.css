@@ -33,3 +33,16 @@ button {
 .guess-list {
   padding: 20px;
 }
+
+.answers {
+  padding: 20px;
+  word-break: break-word;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.answer {
+  margin: 4px;
+  border: 1px solid black;
+  padding: 4px;
+}

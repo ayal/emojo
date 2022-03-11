@@ -24,11 +24,20 @@ export default function App() {
     const guessWord = ref.current.value;
     ref.current.value = "";
     console.log("guess word is", guessWord);
-    if (selectedWords.includes(guessWord.toLowerCase())) {
-      setGuesses((prev) => [...prev, { ok: true, guessWord }]);
-    } else {
-      setGuesses((prev) => [...prev, { ok: false, guessWord }]);
+    let ok = false;
+    let partial = false;
+    for (const sWord of selectedWords) {
+      if (sWord === guessWord.toLowerCase()) {
+        ok = true;
+        partial = false;
+        break;
+      }
+      else if (sWord.indexOf(guessWord) === 0) {
+        ok = true;
+        partial = true;
+      }
     }
+    setGuesses((prev) => [...prev, { ok: true, guessWord, partial }]);
   };
   return (
     <div className="App">
@@ -37,20 +46,20 @@ export default function App() {
           <div style={{ fontSize: 60 }}>{selected}</div>
           <div>{`${words[selected].length} words`}</div>
           <div class="input-button">
-            <input ref={ref} />
-            <button onClick={(e) => guess(e.target.value)}>guess</button>
+            <input ref={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
+            <button onClick={(e) => guess()}>guess</button>
           </div>
           <div class="guess-list">
-            {guesses.map(({ ok, guessWord }) => {
+            {guesses.map(({ ok, partial, guessWord }) => {
               return (
-                <div style={{ background: ok ? "green" : "red" }}>
+                <div style={{ background: ok ? partial ? "yellow" : "green" : "red" }}>
                   {guessWord}
                 </div>
               );
             })}
           </div>
           <button onClick={setAnswers}>Show Answers</button>
-          {answers ? <div>{words[selected].join(",")}</div> : null}
+          <div class="answers">{answers ? words[selected].map(x => <span class="answer">{x}</span>) : null}</div>
         </div>
       }
     </div>
