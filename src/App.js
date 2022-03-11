@@ -38,11 +38,11 @@ export default function App() {
 
 
 
-  const selected = keys[idx];
-  const selectedWords = uniq(words[selected].flatMap((x) =>
+  const emoji = keys[idx];
+  const legitWords = uniq(words[emoji].flatMap((x) =>
     [...x.split(" ").map((y) => y.toLowerCase()), x]
   ));
-  const answerWords = uniq(words[selected].flatMap((x) =>
+  const answerWords = uniq(words[emoji].flatMap((x) =>
     [...x.split(" ").map((y) => y.toLowerCase())]
   ));
 
@@ -56,7 +56,7 @@ export default function App() {
 
     let ok = false;
     let partial = false;
-    for (const sWord of selectedWords) {
+    for (const sWord of legitWords) {
       if (sWord === guessWord.toLowerCase()) {
         ok = true;
         partial = false;
@@ -72,27 +72,27 @@ export default function App() {
   return (
 
     <div className="app">
-      <div style={{ fontSize: 60 }}>{selected}</div>
+      <div style={{ fontSize: 60 }}>{emoji}</div>
       <div className="input-button">
         <input ref={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
-        <button onClick={(e) => guess()}>guess word</button>
+        <button onClick={(e) => guess()}>Guess Word</button>
       </div>
       <div className="guess-list">
         {guesses.map(({ ok, partial, guessWord }) => {
           return (
-            <span className="guess" style={{ background: ok ? partial ? "#FCEAAF" : "#7dda9a" : "#F598AA" }}>
+            <span key={guessWord} className="guess" style={{ background: ok ? partial ? "#FCEAAF" : "#7dda9a" : "#F598AA" }}>
               {guessWord}
             </span>
           );
         })}
       </div>
-      <button role="button" class="answers-button secondary" onClick={setAnswers}>Show Answers</button>
-      <div className="answers">{answers ? answerWords.map(x => <span className="answer">{x}</span>) : null}</div>
-      <button role="button" class="new-game-button secondary" onClick={() => {
+      <button role="button" className="answers-button secondary" onClick={setAnswers}>Show Answers</button>
+      <div className="answers">{answers ? answerWords.map(x => <span key={x} className="answer">{x}</span>) : null}</div>
+      <button role="button" className="new-game-button secondary" onClick={() => {
         setGuesses([]);
         setAnswers(false);
         setIdx(rint(0, keys.length - 1));
-      }}>New Game</button>
+      }}>New Word</button>
     </div>
   );
 }
