@@ -5,16 +5,9 @@
 }
 
 input {
-  width: 150px;
-  height: 30px;
-  margin: 4px;
-  font-size: 30px;
+  margin-right: 4px;
 }
 
-button {
-  height: 30px;
-  width: 120px;
-}
 
 .app {
   display: flex;
@@ -28,6 +21,11 @@ button {
   align-items: center;
   justify-content: center;
   padding: 20px;
+}
+
+.guess {
+  padding: 4px;
+  color: black;
 }
 
 .guess-list {

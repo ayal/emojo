@@ -52,14 +52,14 @@ export default function App() {
           <div className="guess-list">
             {guesses.map(({ ok, partial, guessWord }) => {
               return (
-                <div style={{ background: ok ? partial ? "yellow" : "green" : "red" }}>
+                <div className="guess" style={{ background: ok ? partial ? "yellow" : "green" : "red" }}>
                   {guessWord}
                 </div>
               );
             })}
           </div>
           <button onClick={setAnswers}>Show Answers</button>
-          <div className="answers">{answers ? words[selected].map(x => <span className="answer">{x}</span>) : null}</div>
+          <div className="answers">{answers ? words[selected].map(x => <span className="answer is-small">{x}</span>) : null}</div>
         </div>
       }
     </div>
