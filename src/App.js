@@ -2,6 +2,7 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import "./styles.css";
 import words from "./words.json";
 
+window.__words = words;
 
 const uniq = (arr) => arr.filter(function (x, index) {
   return arr.indexOf(x) === index;
@@ -36,6 +37,8 @@ export default function App() {
   }, [idx])
   useEffect(() => {
     window.onpopstate = function (e) {
+      setGuesses([]);
+      setAnswers(false);
       const qidx = getQ('idx');
       if (qidx !== idx) {
         setIdx(qidx);
