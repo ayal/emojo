@@ -105,19 +105,19 @@ export default function App() {
       <div className="app">
         <div style={{ fontSize: 60 }}>{emoji}</div>
         <div className="input-button">
-          <TextField inputProps={{autoComplete: "off"}} inputRef={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
+          <TextField inputProps={{ autoComplete: "off" }} inputRef={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
           <Button variant="contained" color="primary" className="guess-button" onClick={(e) => guess()}>Guess Word</Button>
         </div>
         <div className="guess-list">
           {guesses.map(({ ok, partial, guessWord }) => {
             return (
-              <Chip key={guessWord} className="guess" color={ok ? partial ? "warning" : "success" : "error" } label={guessWord} />
+              <Chip key={guessWord} className="guess" color={ok ? partial ? "warning" : "success" : "error"} label={guessWord} />
             );
           })}
         </div>
-        <Button variant="contained" color="secondary" className="answers-button secondary" onClick={setAnswers}>Show Answers</Button>
+        <Button variant="contained" size="small" color="secondary" className="answers-button secondary" onClick={setAnswers}>Show Answers</Button>
         <div className="answers">{answers ? answerWords.map(x => <Chip key={x} className="answer" label={x} />) : null}</div>
-        <Button variant="contained" color="secondary" className="new-game-button secondary" onClick={() => {
+        <Button variant="contained" size="small" color="secondary" className="new-game-button secondary" onClick={() => {
           setGuesses([]);
           setAnswers(false);
           setIdx(rint(0, keys.length - 1));

@@ -1,0 +1,2 @@
+body{display:flex;flex-direction:column;align-items:center;justify-content:center}input{margin-right:4px}.app{padding:20px;width:320px;flex-wrap:wrap}.app,.input-button{display:flex;flex-direction:column;align-items:center;justify-content:center}.input-button{padding:10px}.guess-button{margin-top:8px!important}.guess{padding:4px;color:#000}.answers,.guess-list{padding:10px;flex-wrap:wrap;display:flex;align-items:center;justify-content:center}.answer,.guess{margin:4px;padding:4px}
+/*# sourceMappingURL=main.f3040c83.chunk.css.map */
