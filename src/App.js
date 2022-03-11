@@ -23,6 +23,11 @@ export default function App() {
   const guess = (e) => {
     const guessWord = ref.current.value;
     ref.current.value = "";
+    
+    if (!guessWord.trim()) {
+      return;
+    }
+    
     console.log("guess word is", guessWord);
     let ok = false;
     let partial = false;
