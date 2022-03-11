@@ -105,7 +105,7 @@ export default function App() {
         setGuesses([]);
         setAnswers(false);
         setIdx(rint(0, keys.length - 1));
-      }}>New Word</button>
+      }}>New Emojo</button>
     </div>
   );
 }
