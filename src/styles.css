@@ -27,6 +27,10 @@ input {
   flex-direction: column;
 }
 
+.guess-button {
+  margin-top: 8px !important;
+}
+
 .guess {
   padding: 4px;
   color: black;
@@ -48,15 +52,13 @@ input {
   justify-content: center;
 }
 
-.answer, .guess {
+.answer,
+.guess {
   margin: 4px;
-  border: 1px solid white;
   padding: 4px;
-  color:black;
-  background: #D7D7D7;
-  border-radius: 3px;
 }
 
-.answers-button, .new-game-button {
+.answers-button,
+.new-game-button {
   width: 200px;
 }
