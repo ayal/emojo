@@ -51,6 +51,8 @@ input {
   margin: 4px;
   border: 1px solid white;
   padding: 4px;
+  color:black;
+  background: #D7D7D7;
 }
 
 .answers-button, .new-game-button {

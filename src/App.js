@@ -74,7 +74,7 @@ export default function App() {
           <div className="guess-list">
             {guesses.map(({ ok, partial, guessWord }) => {
               return (
-                <span className="guess" style={{ background: ok ? partial ? "yellow" : "green" : "red" }}>
+                <span className="guess" style={{ background: ok ? partial ? "#FCEAAF" : "#7DDAD9" : "#F598AA" }}>
                   {guessWord}
                 </span>
               );
