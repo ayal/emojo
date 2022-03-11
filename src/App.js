@@ -3,8 +3,8 @@ import "./styles.css";
 import words from "./words.json";
 
 
-const uniq = (arr)=>arr.filter(function (x, index) {
-	return arr.indexOf(x) === index;
+const uniq = (arr) => arr.filter(function (x, index) {
+  return arr.indexOf(x) === index;
 });
 
 function rint(min, max) {
@@ -20,8 +20,10 @@ const getQ = (p) => {
 
 const setQ = (p, v) => {
   const urlParams = new URLSearchParams(window.location.search);
-  urlParams.set(p, v);
-  history.replaceState({}, '', `${location.pathname}?${urlParams}`)
+  if (urlParams.get(p) !== v) {
+    urlParams.set(p, v);
+    history.pushState({}, '', `${location.pathname}?${urlParams}`)
+  }
 }
 
 
@@ -32,6 +34,14 @@ export default function App() {
   useEffect(() => {
     setQ('idx', idx);
   }, [idx])
+  useEffect(() => {
+    window.onpopstate = function (e) {
+      const qidx = getQ('idx');
+      if (qidx !== idx) {
+        setIdx(qidx);
+      }
+    };
+  }, [])
   const ref = useRef();
   const [answers, setAnswers] = useState();
   const [guesses, setGuesses] = useState([]);
@@ -47,10 +57,10 @@ export default function App() {
   ));
 
   const guess = (e) => {
-    const guessWord = ref.current.value;
+    const guessWord = ref.current.value.trim();
     ref.current.value = "";
 
-    if (!guessWord.trim()) {
+    if (!guessWord) {
       return;
     }
 
