@@ -28,6 +28,7 @@ const setQ = (p, v) => {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get(p) !== v) {
     urlParams.set(p, v);
+    urlParams.delete('emoji');
     history.pushState({}, '', `${location.pathname}?${urlParams}`)
   }
 }
@@ -46,7 +47,11 @@ export default function App() {
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   const keys = useMemo(() => Object.keys(words), [words]);
-  const qidx = getQ('idx');
+  let qidx = getQ('idx');
+  const qemoji = getQ('emoji')
+  if (qemoji && keys.indexOf(qemoji) !== -1) {
+    qidx = keys.indexOf(qemoji);
+  }
   const [idx, setIdx] = useState(qidx && Number(qidx) ? Number(qidx) : rint(0, keys.length - 1));
   useEffect(() => {
     setQ('idx', idx);
