@@ -17,7 +17,7 @@ export default function App() {
 
   const selected = keys[idx];
   const selectedWords = words[selected].flatMap((x) =>
-    x.split(" ").map((y) => y.toLowerCase())
+    [...x.split(" ").map((y) => y.toLowerCase()), x]
   );
 
   const guess = (e) => {
@@ -37,19 +37,19 @@ export default function App() {
         partial = true;
       }
     }
-    setGuesses((prev) => [...prev, { ok: true, guessWord, partial }]);
+    setGuesses((prev) => [...prev, { ok, guessWord, partial }]);
   };
   return (
     <div className="App">
       {
-        <div class="app">
+        <div className="app">
           <div style={{ fontSize: 60 }}>{selected}</div>
           <div>{`${words[selected].length} words`}</div>
-          <div class="input-button">
+          <div className="input-button">
             <input ref={ref} onKeyDown={(e) => e.key === 'Enter' && guess()} />
             <button onClick={(e) => guess()}>guess</button>
           </div>
-          <div class="guess-list">
+          <div className="guess-list">
             {guesses.map(({ ok, partial, guessWord }) => {
               return (
                 <div style={{ background: ok ? partial ? "yellow" : "green" : "red" }}>
@@ -59,7 +59,7 @@ export default function App() {
             })}
           </div>
           <button onClick={setAnswers}>Show Answers</button>
-          <div class="answers">{answers ? words[selected].map(x => <span class="answer">{x}</span>) : null}</div>
+          <div className="answers">{answers ? words[selected].map(x => <span className="answer">{x}</span>) : null}</div>
         </div>
       }
     </div>

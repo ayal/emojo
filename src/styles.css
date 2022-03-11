@@ -36,7 +36,6 @@ button {
 
 .answers {
   padding: 20px;
-  word-break: break-word;
   display: flex;
   flex-wrap: wrap;
 }
